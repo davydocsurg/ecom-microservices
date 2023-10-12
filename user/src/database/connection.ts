@@ -1,4 +1,4 @@
-import { mongoose } from "../../shared";
+import { mongoose } from "../../../shared";
 import config from "../config";
 import logger from "../utils/logger";
 

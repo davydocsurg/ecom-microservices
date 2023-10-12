@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { config } from "../../shared";
+import { config } from "../../../shared";
 import { APIError } from "../utils";
 
 const configFile = `./.env.${process.env.NODE_ENV}`;

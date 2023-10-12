@@ -1,4 +1,4 @@
-import { httpStatus } from "../../shared";
+import { httpStatus } from "../../../shared";
 
 class AppError extends Error {
     name: string;
