@@ -1,3 +1,4 @@
 import { APIError } from "./api-errors";
+import catchAsync from "./catchAsync";
 
-export { APIError };
+export { APIError, catchAsync };
