@@ -1,10 +1,12 @@
-import mongoose, { Schema, Document } from "mongoose";
+import { mongoose, Schema, Document } from "../../../shared";
 import { validator } from "../../../shared";
 
 export interface IUser extends Document {
     name: string;
     email: string;
     password: string;
+    resetToken: string;
+    resetTokenExpiration: Date;
 }
 
 const UserSchema: Schema = new Schema(
@@ -45,4 +47,5 @@ const UserSchema: Schema = new Schema(
     }
 );
 
-export default mongoose.model<IUser>("User", UserSchema);
+const User = mongoose.model<IUser>("User", UserSchema);
+export default User;
