@@ -66,4 +66,18 @@ if (![DEV, PROD, TEST].includes(NODE_ENV || "")) {
     );
 }
 
-export default { env: envVars.NODE_ENV, MONGO_URI, NODE_ENV, DEV, PROD, TEST };
+const QUEUE_NAME = "USER_QUEUE";
+const EXCHANGE_NAME = "ECOMMERCE_EXCHANGE";
+const BINDING_KEY = "USER_SERVICE";
+
+export default {
+    env: envVars.NODE_ENV,
+    MONGO_URI,
+    NODE_ENV,
+    DEV,
+    PROD,
+    TEST,
+    QUEUE_NAME,
+    EXCHANGE_NAME,
+    BINDING_KEY,
+};
