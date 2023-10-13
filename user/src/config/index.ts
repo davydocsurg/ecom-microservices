@@ -1,5 +1,6 @@
 import Joi from "joi";
-import { config } from "../../../shared";
+import { config } from "dotenv";
+import httpStatus from "http-status";
 import { APIError } from "../utils";
 
 const configFile = `./.env.${process.env.NODE_ENV}`;
@@ -39,12 +40,16 @@ const envVarsSchema = Joi.object()
         EMAIL_FROM: Joi.string().description(
             "the from field in the emails sent by the app"
         ),
-        FRONTEND_BASE_URL: Joi.string().description(
-            "the baseurl of the frontend"
-        ),
-        ADMIN_DEFAULT_PASSWORD: Joi.string().description(
-            "the default password for new admin"
-        ),
+        MONGO_URI: Joi.string().required().description("Mongo DB host url"),
+        // FRONTEND_BASE_URL: Joi.string().description(
+        //     "the baseurl of the frontend"
+        // ),
+        // ADMIN_DEFAULT_PASSWORD: Joi.string().description(
+        //     "the default password for new admin"
+        // ),
+        MESSAGE_BROKER_URL: Joi.string()
+            .description("the url of the message broker")
+            .required(),
     })
     .unknown();
 
@@ -54,12 +59,14 @@ const { value: envVars, error } = envVarsSchema
 
 if (!MONGO_URI) {
     throw new APIError(
+        httpStatus.INTERNAL_SERVER_ERROR,
         `MONGO_URI environment variable is not defined in ${configFile}`
     );
 }
 
 if (![DEV, PROD, TEST].includes(NODE_ENV || "")) {
     throw new APIError(
+        httpStatus.INTERNAL_SERVER_ERROR,
         `
         Invalid NODE_ENV value: ${NODE_ENV}. It must be set to either ${DEV}, ${PROD}, or ${TEST}.
         `
@@ -72,6 +79,9 @@ const BINDING_KEY = "USER_SERVICE";
 
 export default {
     env: envVars.NODE_ENV,
+    port: envVars.PORT,
+    mongoDBUrl: envVars.MONGO_URI,
+    messageBrokerUrl: envVars.MESSAGE_BROKER_URL,
     MONGO_URI,
     NODE_ENV,
     DEV,

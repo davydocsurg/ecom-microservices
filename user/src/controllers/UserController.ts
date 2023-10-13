@@ -1,4 +1,4 @@
-import { httpStatus } from "../../../shared";
+import httpStatus from "http-status";
 import UserService from "../services/UserService";
 import { catchAsync } from "../utils";
 

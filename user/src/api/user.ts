@@ -5,7 +5,7 @@ import UserController from "../controllers/UserController";
 import { validate } from "./middlewares";
 import { userValidation } from "./validations";
 
-export const user = async (app: Express, channel: Channel) => {
+const user = async (app: Express, channel: Channel) => {
     await userUtils.subscribeToMessage(channel);
 
     app.post(
@@ -14,3 +14,5 @@ export const user = async (app: Express, channel: Channel) => {
         UserController.signup
     );
 };
+
+export default user;

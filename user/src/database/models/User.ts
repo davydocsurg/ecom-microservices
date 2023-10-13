@@ -1,5 +1,5 @@
-import { mongoose, Schema, Document } from "../../../../shared";
-import { validator } from "../../../../shared";
+import mongoose, { Schema, Document } from "mongoose";
+import validator from "validator";
 
 export interface IUser extends Document {
     name: string;

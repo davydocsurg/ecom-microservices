@@ -1,4 +1,4 @@
-import { httpStatus } from "../../../../shared";
+import httpStatus from "http-status";
 import { APIError } from "../../utils";
 import { NextFunction, Request, Response } from "express";
 import { pick } from "../../utils";
@@ -15,7 +15,7 @@ const validate =
             const errorMessage = error.details
                 .map((details) => details.message)
                 .join(", ");
-            return next(new APIError(errorMessage, httpStatus.BAD_REQUEST));
+            return next(new APIError(httpStatus.BAD_REQUEST, errorMessage));
         }
         Object.assign(req, value);
         return next();

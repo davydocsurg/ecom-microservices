@@ -1,24 +1,20 @@
-import { httpStatus } from "../../../shared";
+import httpStatus from "http-status";
 
 class AppError extends Error {
-    name: string;
     statusCode: number;
-    description: string;
     isOperational: boolean;
     errorStack: string;
     errorResponse: boolean;
 
     constructor(
-        name: string,
         statusCode: number,
-        description: string,
+        message: string | undefined,
         isOperational: boolean,
         errorStack: string,
         errorResponse: boolean
     ) {
-        super(description);
+        super(message);
         Object.setPrototypeOf(this, new.target.prototype);
-        this.name = name;
         this.statusCode = statusCode;
         this.isOperational = isOperational;
         this.errorStack = errorStack;
@@ -29,32 +25,25 @@ class AppError extends Error {
 
 class APIError extends AppError {
     constructor(
-        name: string,
         statusCode: number,
-        description: string = "Internal Server Error",
-        isOperational: boolean = true
+        message: string | undefined,
+        isOperational: boolean = true,
+        errorStack: string = "",
+        errorResponse: boolean = true
     ) {
-        super(name, statusCode, description, isOperational, "", true);
+        super(statusCode, message, isOperational, errorStack, errorResponse);
     }
 }
 
 class NotFoundError extends AppError {
     constructor(
-        name: string = "NOT FOUND",
         statusCode: number = httpStatus.NOT_FOUND,
-        description = "Not Found",
+        message = "Not Found",
         isOperational: boolean = true,
         errorStack: string = "",
         errorResponse: boolean = true
     ) {
-        super(
-            name,
-            statusCode,
-            description,
-            isOperational,
-            errorStack,
-            errorResponse
-        );
+        super(statusCode, message, isOperational, errorStack, errorResponse);
     }
 }
 

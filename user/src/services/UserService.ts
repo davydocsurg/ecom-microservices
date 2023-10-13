@@ -1,3 +1,4 @@
+import httpStatus from "http-status";
 import { User } from "../database/models";
 import UserRepo from "../repository/UserRepo";
 import { APIError, logger } from "../utils";
@@ -18,7 +19,7 @@ const create = async (
     role: string
 ) => {
     if (await UserRepo.getUserByEmail(email)) {
-        throw new APIError("Email already exists");
+        throw new APIError(httpStatus.BAD_REQUEST, "Email already exists");
     }
 
     const user = await User.create({

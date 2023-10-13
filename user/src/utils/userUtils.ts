@@ -1,7 +1,20 @@
-import { Channel } from "amqplib";
+import { Channel, connect } from "amqplib";
 import config from "../config";
 import { APIError } from "./apiErrors";
-import { httpStatus } from "../../../shared";
+import httpStatus from "http-status";
+
+const createChannel = async () => {
+    try {
+        const connection = await connect(config.messageBrokerUrl);
+        const channel = await connection.createChannel();
+        await channel.assertExchange(config.EXCHANGE_NAME, "direct", {
+            durable: true,
+        });
+        return channel;
+    } catch (error: any) {
+        return new APIError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
+    }
+};
 
 const subscribeToMessage = async (channel: Channel) => {
     try {
@@ -17,9 +30,9 @@ const subscribeToMessage = async (channel: Channel) => {
                 channel.ack(message);
             }
         });
-    } catch (error) {
-        return new APIError(error.message, httpStatus.INTERNAL_SERVER_ERROR);
+    } catch (error: any) {
+        return new APIError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
     }
 };
 
-export default { subscribeToMessage };
+export default { createChannel, subscribeToMessage };
