@@ -23,15 +23,24 @@ class AppError extends Error {
     }
 }
 
-class APIError extends AppError {
+class APIError extends Error {
+    statusCode: number;
+    isOperational: boolean;
+
     constructor(
         statusCode: number,
         message: string | undefined,
-        isOperational: boolean = true,
-        errorStack: string = "",
-        errorResponse: boolean = true
+        isOperational = true,
+        stack = ""
     ) {
-        super(statusCode, message, isOperational, errorStack, errorResponse);
+        super(message);
+        this.statusCode = statusCode;
+        this.isOperational = isOperational;
+        if (stack) {
+            this.stack = stack;
+        } else {
+            Error.captureStackTrace(this, this.constructor);
+        }
     }
 }
 

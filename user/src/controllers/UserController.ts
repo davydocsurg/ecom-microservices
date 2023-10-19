@@ -2,7 +2,7 @@ import httpStatus from "http-status";
 import UserService from "../services/UserService";
 import { catchAsync } from "../utils";
 
-const signup = catchAsync(async (req, res, next) => {
+const signup = catchAsync(async (req, res) => {
     const { name, email, password, role } = req.body;
 
     const user = await UserService.create(name, email, password, role);

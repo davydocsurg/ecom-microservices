@@ -2,6 +2,7 @@ import httpStatus from "http-status";
 import { User } from "../database/models";
 import UserRepo from "../repository/UserRepo";
 import { APIError, logger } from "../utils";
+import { IUser } from "../database/models/User";
 
 /**
  * Create user
@@ -10,24 +11,35 @@ import { APIError, logger } from "../utils";
  * @param {string} email
  * @param {string} password
  * @param {string} role
- * @returns {Promise<IUser>}
+ * @returns {Promise<Pick<IUser, Key>>}
  */
 const create = async (
     name: string,
     email: string,
     password: string,
-    role: string
+    role: string,
+    keys: (keyof IUser)[] = [
+        "_id",
+        "name",
+        "email",
+        "role",
+        "resetToken",
+        "resetTokenExpiration",
+    ]
 ) => {
     if (await UserRepo.getUserByEmail(email)) {
         throw new APIError(httpStatus.BAD_REQUEST, "Email already exists");
     }
 
-    const user = await User.create({
-        name,
-        email,
-        password,
-        role,
-    });
+    const user = await User.create(
+        {
+            name,
+            email,
+            password,
+            role,
+        },
+        keys.reduce((obj, k) => ({ ...obj, [k]: true }), {})
+    );
 
     return user;
 };
