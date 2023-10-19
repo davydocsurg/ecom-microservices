@@ -1,7 +1,7 @@
-import { APIError } from "./apiErrors";
+import ApiError from "./ApiErrors";
 import catchAsync from "./catchAsync";
 import logger from "./logger";
 import userUtils from "./userUtils";
 import pick from "./pick";
 
-export { APIError, catchAsync, logger, userUtils, pick };
+export { ApiError, catchAsync, logger, userUtils, pick };

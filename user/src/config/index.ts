@@ -1,7 +1,7 @@
 import Joi from "joi";
 import { config } from "dotenv";
 import httpStatus from "http-status";
-import { APIError } from "../utils";
+import { ApiError } from "../utils";
 
 const configFile = `./.env.${process.env.NODE_ENV}`;
 
@@ -58,14 +58,14 @@ const { value: envVars, error } = envVarsSchema
     .validate(process.env);
 
 if (!MONGO_URI) {
-    throw new APIError(
+    throw new ApiError(
         httpStatus.INTERNAL_SERVER_ERROR,
         `MONGO_URI environment variable is not defined in ${configFile}`
     );
 }
 
 if (![DEV, PROD, TEST].includes(NODE_ENV || "")) {
-    throw new APIError(
+    throw new ApiError(
         httpStatus.INTERNAL_SERVER_ERROR,
         `
         Invalid NODE_ENV value: ${NODE_ENV}. It must be set to either ${DEV}, ${PROD}, or ${TEST}.

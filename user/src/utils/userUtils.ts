@@ -1,6 +1,6 @@
 import { Channel, connect } from "amqplib";
 import config from "../config";
-import { APIError } from "./apiErrors";
+import ApiError from "./ApiErrors";
 import httpStatus from "http-status";
 
 const createChannel = async () => {
@@ -12,7 +12,7 @@ const createChannel = async () => {
         });
         return channel;
     } catch (error: any) {
-        return new APIError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
+        return new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
     }
 };
 
@@ -31,7 +31,7 @@ const subscribeToMessage = async (channel: Channel) => {
             }
         });
     } catch (error: any) {
-        return new APIError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
+        return new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
     }
 };
 

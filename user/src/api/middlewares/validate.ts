@@ -1,5 +1,5 @@
 import httpStatus from "http-status";
-import { APIError } from "../../utils";
+import { ApiError } from "../../utils";
 import { NextFunction, Request, Response } from "express";
 import { pick } from "../../utils";
 import Joi from "joi";
@@ -15,7 +15,7 @@ const validate =
             const errorMessage = error.details
                 .map((details) => details.message)
                 .join(", ");
-            return next(new APIError(httpStatus.BAD_REQUEST, errorMessage));
+            return next(new ApiError(httpStatus.BAD_REQUEST, errorMessage));
         }
         Object.assign(req, value);
         return next();
