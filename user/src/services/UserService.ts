@@ -1,8 +1,7 @@
 import httpStatus from "http-status";
 import { User } from "../database/models";
 import UserRepo from "../repository/UserRepo";
-import { ApiError, logger } from "../utils";
-import { IUser } from "../database/models/User";
+import { ApiError, encryptPassword, exclude, logger } from "../utils";
 
 /**
  * Create user
@@ -17,31 +16,25 @@ const create = async (
     name: string,
     email: string,
     password: string,
-    role: string,
-    keys: (keyof IUser)[] = [
-        "_id",
-        "name",
-        "email",
-        "role",
-        "resetToken",
-        "resetTokenExpiration",
-    ]
+    role?: string
 ) => {
     if (await UserRepo.getUserByEmail(email)) {
         throw new ApiError(httpStatus.BAD_REQUEST, "Email already exists");
     }
 
-    const user = await User.create(
-        {
-            name,
-            email,
-            password,
-            role,
-        },
-        keys.reduce((obj, k) => ({ ...obj, [k]: true }), {})
-    );
+    const user = await User.create({
+        name,
+        email,
+        password: await encryptPassword(password),
+    });
 
-    return user;
+    const userWithoutPassword = {
+        name: user.name,
+        email: user.email,
+        role: user.role,
+    };
+
+    return userWithoutPassword;
 };
 
 /**

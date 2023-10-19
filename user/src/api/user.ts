@@ -13,6 +13,12 @@ const user = async (app: Express, channel: Channel) => {
         validate(userValidation.createUser),
         UserController.signup
     );
+
+    app.post(
+        "/login",
+        validate(userValidation.loginUser),
+        UserController.login
+    );
 };
 
 export default user;

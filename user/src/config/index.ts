@@ -79,6 +79,9 @@ const BINDING_KEY = "USER_SERVICE";
 
 export default {
     env: envVars.NODE_ENV,
+    jwt: {
+        secret: envVars.JWT_SECRET,
+    },
     port: envVars.PORT,
     mongoDBUrl: envVars.MONGO_URI,
     messageBrokerUrl: envVars.MESSAGE_BROKER_URL,
