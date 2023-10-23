@@ -1,7 +1,8 @@
 import httpStatus from "http-status";
 import { User } from "../database/models";
 import UserRepo from "../repository/UserRepo";
-import { ApiError, encryptPassword, exclude, logger } from "../utils";
+import { ApiError, encryptPassword, exclude, logger, rabbitmq } from "../utils";
+import config from "../config";
 
 /**
  * Create user
@@ -28,6 +29,8 @@ const create = async (
         password: await encryptPassword(password),
     });
 
+    await processUser();
+
     const userWithoutPassword = {
         name: user.name,
         email: user.email,
@@ -35,6 +38,33 @@ const create = async (
     };
 
     return userWithoutPassword;
+};
+
+/**
+ * Process user
+ * @returns {Promise<void>}
+ */
+const processUser = async () => {
+    try {
+        const channel = await rabbitmq.createChannel();
+        const userQueue = await channel.assertQueue(config.QUEUE_NAME, {
+            durable: true,
+        });
+        await channel.bindQueue(
+            userQueue.queue,
+            config.EXCHANGE_NAME,
+            config.BINDING_KEY
+        );
+        await channel.consume(userQueue.queue, (message) => {
+            if (message) {
+                console.log(message.content.toString());
+                channel.ack(message);
+            }
+        });
+    } catch (error: any) {
+        logger.error(error);
+        throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
+    }
 };
 
 /**
@@ -71,4 +101,5 @@ const subscribe = async (payload: any) => {
 export default {
     create,
     subscribe,
+    processUser,
 };

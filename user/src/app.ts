@@ -1,18 +1,15 @@
-import express, { Express } from "express";
+import express from "express";
 import cors from "cors";
-import api from "./api";
 import { errorConverter, errorHandler, xss } from "./api/middlewares";
-import { Channel } from "amqplib";
+import userRouter from "./routes";
 
-const eApp = async (app: Express, channel: Channel) => {
-    app.use(express.json());
-    app.use(express.urlencoded({ extended: true }));
-    app.use(cors());
-    app.use(xss());
-    api.user(app, channel);
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cors());
+app.use(xss());
+app.use("/api", userRouter);
+app.use(errorConverter);
+app.use(errorHandler);
 
-    app.use(errorConverter);
-    app.use(errorHandler);
-};
-
-export default eApp;
+export default app;

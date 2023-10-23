@@ -1,4 +1,4 @@
-import user from "./user";
+import user from "../routes/user";
 
 export default {
     user,

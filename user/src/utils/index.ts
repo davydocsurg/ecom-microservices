@@ -5,6 +5,7 @@ import userUtils from "./userUtils";
 import pick from "./pick";
 import { encryptPassword, isPasswordMatch } from "./encryption";
 import exclude from "./exclude";
+import rabbitmq from "./rabbitmq";
 
 export {
     ApiError,
@@ -15,4 +16,5 @@ export {
     encryptPassword,
     isPasswordMatch,
     exclude,
+    rabbitmq,
 };
