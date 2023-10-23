@@ -3,6 +3,7 @@ import { User } from "../database/models";
 import UserRepo from "../repository/UserRepo";
 import { ApiError, encryptPassword, exclude, logger, rabbitmq } from "../utils";
 import config from "../config";
+import { IUser } from "../database/models/User";
 
 /**
  * Create user
@@ -29,7 +30,7 @@ const create = async (
         password: await encryptPassword(password),
     });
 
-    await processUser();
+    await publishUserRegistration(user);
 
     const userWithoutPassword = {
         name: user.name,
@@ -38,6 +39,26 @@ const create = async (
     };
 
     return userWithoutPassword;
+};
+
+/**
+ * Create and publish user registration message
+ *
+ * @param {IUser} user
+ * @returns {Promise<void>}
+ */
+const publishUserRegistration = async (user: IUser) => {
+    try {
+        const channel = await rabbitmq.createChannel();
+        await channel.assertQueue(config.userRegistrationQueue);
+        channel.sendToQueue(
+            config.userRegistrationQueue,
+            Buffer.from(JSON.stringify(user))
+        );
+    } catch (error: any) {
+        logger.error(error);
+        throw new ApiError(httpStatus.INTERNAL_SERVER_ERROR, error.message);
+    }
 };
 
 /**

@@ -1,6 +1,6 @@
 import { Channel, connect } from "amqplib";
 import config from "../config";
-import ApiError from "./ApiErrors";
+import ApiError from "./apiErrors";
 import httpStatus from "http-status";
 
 const createChannel = async () => {

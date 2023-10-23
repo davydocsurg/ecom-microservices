@@ -74,6 +74,7 @@ if (![DEV, PROD, TEST].includes(NODE_ENV || "")) {
 }
 
 const QUEUE_NAME = "USER_QUEUE";
+const USER_REGISTRATION_QUEUE = "USER_REGISTRATION_QUEUE";
 const EXCHANGE_NAME = "ECOMMERCE_EXCHANGE";
 const BINDING_KEY = "USER_SERVICE";
 
@@ -93,4 +94,5 @@ export default {
     QUEUE_NAME,
     EXCHANGE_NAME,
     BINDING_KEY,
+    userRegistrationQueue: USER_REGISTRATION_QUEUE,
 };

@@ -1,7 +1,7 @@
 import amqp from "amqplib";
 import config from "../config";
 import logger from "./logger";
-import ApiError from "./ApiErrors";
+import ApiError from "./apiErrors";
 import httpStatus from "http-status";
 
 const connect = async () => {
