@@ -1,4 +1,5 @@
 import config from "../config";
+import { cartService } from "../services";
 import { rabbitmq } from "../utils";
 import logger from "../utils/logger";
 
@@ -15,8 +16,7 @@ const handleUserRegistrationEvent = async () => {
                 `Received user registration event for user ${userData.email}`
             );
             // Create a cart for the new user
-            // Cart.create({ userId: userData._id, items: [] });
-
+            cartService.create(userData.id);
             // Acknowledge the message
             channel.ack(msg);
         }

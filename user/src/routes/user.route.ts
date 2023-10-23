@@ -7,12 +7,14 @@ const userRouter = express.Router();
 
 userRouter.post(
     "/signup",
+    // @ts-ignore
     validate(userValidation.createUser),
     UserController.signup
 );
 
 userRouter.post(
     "/login",
+    // @ts-ignore
     validate(userValidation.loginUser),
     UserController.login
 );

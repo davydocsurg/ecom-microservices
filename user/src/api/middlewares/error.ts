@@ -7,6 +7,7 @@ import { config as envConf } from "dotenv";
 
 envConf();
 
+// @ts-ignore
 export const errorConverter: ErrorRequestHandler = (err, req, res, next) => {
     let error = err;
     if (!(error instanceof ApiError)) {
@@ -21,7 +22,7 @@ export const errorConverter: ErrorRequestHandler = (err, req, res, next) => {
     next(error);
 };
 
-// eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
+// @ts-ignore
 export const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
     let { statusCode, message } = err;
     if (process.env.NODE_ENV === "production" && !err.isOperational) {

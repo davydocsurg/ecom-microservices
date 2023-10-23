@@ -3,6 +3,7 @@ import UserService from "../services/UserService";
 import { catchAsync } from "../utils";
 import { AuthService } from "../services";
 
+// @ts-ignore
 const signup = catchAsync(async (req, res) => {
     const { name, email, password } = req.body;
 
@@ -10,6 +11,7 @@ const signup = catchAsync(async (req, res) => {
     return res.status(httpStatus.CREATED).send({ user });
 });
 
+// @ts-ignore
 const login = catchAsync(async (req, res) => {
     const { email, password } = req.body;
 
