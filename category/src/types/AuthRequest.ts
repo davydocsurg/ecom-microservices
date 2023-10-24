@@ -4,6 +4,7 @@ import { Document } from "mongoose";
 export interface AuthRequest extends Request {
     // _id: string;
     user: IUser;
+    sub: any;
 }
 
 export interface IUser extends Document {

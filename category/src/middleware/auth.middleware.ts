@@ -5,6 +5,12 @@ import { AuthRequest } from "../types";
 import config from "../config";
 import httpStatus from "http-status";
 
+interface TokenPayload {
+    email: string;
+    iat: number;
+    exp: number;
+}
+
 const authMiddleware = async (
     req: AuthRequest,
     res: Response,
@@ -41,34 +47,15 @@ const authMiddleware = async (
 
     const [, token] = authHeader.split(" ");
 
-    let payload: any;
-    // verify token
     try {
-        payload = jwt.verify(token, config.jwt.secret);
-        // Logging.info(payload);
+        const decoded = jwt.verify(token, config.jwt.secret) as TokenPayload;
+        req.user.email = decoded.email;
         next();
     } catch (error) {
         logger.error(error);
         return next(new ApiError(httpStatus.UNAUTHORIZED, "Invalid token"));
     }
-    // Verify the JWT token and extract user information
-    const decoded = jwt.verify(token, config.jwt.secret);
-    // check if user's password is still thesame since token issue
-    // const passwordChanged = await currentUser.changedPasswordAfter(payload.iat);
-    // Logging.error(passwordChanged);
-    // if (passwordChanged) {
-    //     return next(
-    //         new ApiError(
-    //             "User recently changed password. Please, login again",
-    //             401
-    //         )
-    //     );
-    // }
 
-    logger.info(decoded);
-
-    // grant access
-    // req.user = currentUser;
     return next();
 };
 

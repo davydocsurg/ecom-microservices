@@ -1,5 +1,5 @@
 import express, { Express } from "express";
-import { errorConverter, errorHandler } from "./middleware";
+import { authMiddleware, errorConverter, errorHandler } from "./middleware";
 import { categoryRoute } from "./routes";
 
 const app: Express = express();

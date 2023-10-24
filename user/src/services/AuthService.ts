@@ -19,19 +19,21 @@ export const cookieOptions = {
 /**
  * Signs a JSON Web Token (JWT) with the provided data.
  *
- * @param {string} email - The developer's email.
+ * @param {string} email - The user's email.
+ * @param {string} id - The user's id.
+ * @param {string} role - The user's role.
  * @returns {string} The signed JWT token.
  * @throws {Error} If an error occurs during the token signing process.
  */
-const signToken = (email: string) => {
-    const token = jwt.sign({ email }, config.jwt.secret, {
+const signToken = (email: string, id: string, role: string) => {
+    const token = jwt.sign({ email, id, role }, config.jwt.secret, {
         expiresIn: "1d",
     });
     return token;
 };
 
 const createSendToken = async (user: IUser, res: Response) => {
-    const token = signToken(user.email);
+    const token = signToken(user.email, user._id, user.role);
     if (config.env === config.PROD) cookieOptions.secure = true;
     // @ts-ignore
     res.cookie("jwt", token, cookieOptions);
