@@ -4,10 +4,9 @@ import { rabbitmq } from "../utils";
 import logger from "../utils/logger";
 
 const handleUserRegistrationEvent = async () => {
+    logger.info("Listening for user registration events");
     const channel = await rabbitmq.createChannel();
-    channel.assertExchange(config.userRegistrationQueue, "fanout");
-    const queue = await channel.assertQueue("", { exclusive: true });
-    channel.bindQueue(queue.queue, config.userRegistrationQueue, "");
+    const queue = await channel.assertQueue(config.userRegistrationQueue);
 
     channel.consume(queue.queue, (msg) => {
         if (msg) {

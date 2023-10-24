@@ -6,13 +6,13 @@ import logger from "./logger";
 
 const consumeUserRegistration = async () => {
     try {
-        logger.info("Consuming user registration messages");
+        logger.info("Consuming user registration messages...");
         const channel = await rabbitmq.createChannel();
         channel.assertQueue(config.userRegistrationQueue);
 
         channel.consume(config.userRegistrationQueue, (message) => {
             if (message) {
-                console.log(message.content.toString());
+                console.log(message.content.toString() + "user");
                 channel.ack(message);
             }
         });

@@ -2,8 +2,9 @@
     "name": "cart",
     "version": "1.0.0",
     "description": "",
-    "main": "src/index.js",
+    "main": "src/index.ts",
     "scripts": {
+        "dev": "cross-env NODE_ENV=development nodemon src/index.ts",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "keywords": [],
@@ -20,6 +21,7 @@
         "joi": "^17.11.0",
         "mongoose": "^7.6.3",
         "nodemon": "^3.0.1",
+        "ts-node": "^10.9.1",
         "typescript": "^5.2.2",
         "winston": "^3.11.0"
     },
