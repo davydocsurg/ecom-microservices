@@ -1,6 +1,6 @@
-import { IUser } from "../types";
 import { RequestHandler } from "express";
 import { Request, Response, NextFunction } from "express-serve-static-core";
+import { IUser } from "../types";
 
 declare module "express-serve-static-core" {
     interface Request {
