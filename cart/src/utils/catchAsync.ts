@@ -1,4 +1,4 @@
-import { IUser } from "../database/models/User";
+import { IUser } from "../types";
 import { RequestHandler } from "express";
 import { Request, Response, NextFunction } from "express-serve-static-core";
 

@@ -71,6 +71,7 @@ const processUser = async () => {
         const userQueue = await channel.assertQueue(config.QUEUE_NAME, {
             durable: true,
         });
+        logger.warn(userQueue.queue);
         await channel.bindQueue(
             userQueue.queue,
             config.EXCHANGE_NAME,

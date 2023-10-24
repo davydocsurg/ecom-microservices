@@ -33,6 +33,7 @@ const signToken = (email: string) => {
 const createSendToken = async (user: IUser, res: Response) => {
     const token = signToken(user.email);
     if (config.env === config.PROD) cookieOptions.secure = true;
+    // @ts-ignore
     res.cookie("jwt", token, cookieOptions);
 
     return token;
