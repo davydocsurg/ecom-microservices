@@ -28,6 +28,7 @@ const create = async (
         name,
         email,
         password: await encryptPassword(password),
+        role,
     });
 
     await publishUserRegistration(user);

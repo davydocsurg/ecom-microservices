@@ -1,4 +1,3 @@
-import express from "express";
 import { connectDB } from "./database/connection";
 import config from "./config";
 import { Server } from "http";

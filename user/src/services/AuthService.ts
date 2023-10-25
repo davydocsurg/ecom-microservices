@@ -67,11 +67,12 @@ const login = async (email: string, password: string, res: Response) => {
  * @returns {Promise<IUser | null, token>}
  */
 const loginWithEmailAndPassword = async (email: string, password: string) => {
-    const user = await UserRepo.getUserByEmail(email);
-    if (!user && !(await isPasswordMatch(password, user!.password))) {
+    const user = await UserRepo.getUserByEmailSync(email);
+
+    if (!user || !(await isPasswordMatch(password, user.password as string))) {
         throw new ApiError(
             httpStatus.BAD_REQUEST,
-            "Email or password not correct"
+            "Incorrect email or password"
         );
     }
 

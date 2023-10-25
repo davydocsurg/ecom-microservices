@@ -28,6 +28,22 @@ const getUserByEmail = async <Key extends keyof IUser>(
     return user;
 };
 
+/**
+ * Get user by email
+ *
+ * @param {string} email
+ * @param {Array<Key>} keys
+ * @returns {Promise<Pick<IUser, Key> | null>}
+ */
+const getUserByEmailSync = async <Key extends keyof IUser>(
+    email: string
+): Promise<Pick<IUser, Key> | null> => {
+    const user = await User.findOne({ email }).select("+password");
+
+    return user;
+};
+
 export default {
     getUserByEmail,
+    getUserByEmailSync,
 };

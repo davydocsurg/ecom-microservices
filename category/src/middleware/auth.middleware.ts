@@ -6,7 +6,9 @@ import config from "../config";
 import httpStatus from "http-status";
 
 interface TokenPayload {
+    _id: string;
     email: string;
+    role: string;
     iat: number;
     exp: number;
 }
@@ -49,7 +51,17 @@ const authMiddleware = async (
 
     try {
         const decoded = jwt.verify(token, config.jwt.secret) as TokenPayload;
+        if (decoded.role !== "admin") {
+            return next(
+                new ApiError(
+                    httpStatus.UNAUTHORIZED,
+                    "Unauthorized. Only admins can create categories."
+                )
+            );
+        }
         req.user.email = decoded.email;
+        req.user.role = decoded.role;
+        req.user._id = decoded._id;
         next();
     } catch (error) {
         logger.error(error);
