@@ -1,6 +1,5 @@
 import { ErrorRequestHandler } from "express";
 import httpStatus from "http-status";
-import config from "../../config";
 import { logger } from "../../utils";
 import { ApiError } from "../../utils";
 import { config as envConf } from "dotenv";

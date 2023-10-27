@@ -1,5 +1,4 @@
 import bcrypt from "bcryptjs";
-import logger from "./logger";
 
 export const encryptPassword = async (password: string) => {
     const encryptedPassword = await bcrypt.hash(password, 12);
@@ -11,6 +10,5 @@ export const isPasswordMatch = async (
     userPassword: string
 ) => {
     const result = await bcrypt.compare(password, userPassword);
-    logger.info(`Password match: ${result}`);
     return result;
 };

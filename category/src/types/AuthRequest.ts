@@ -1,19 +1,16 @@
 import { Request } from "express";
-import { Document } from "mongoose";
 
 export interface AuthRequest extends Request {
-    // _id: string;
     user: IUser;
-    sub: any;
 }
 
-export interface IUser extends Document {
-    // _id: string;
+export interface IUser {
+    _id: string;
     name: string;
     email: string;
     password: string;
-    resetToken: string;
-    resetTokenExpiration: Date;
+    resetToken?: string;
+    resetTokenExpiration?: Date;
     role: string;
     createdAt: Date;
     updatedAt: Date;

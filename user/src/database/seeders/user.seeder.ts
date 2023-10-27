@@ -4,7 +4,6 @@ import { UserService } from "../../services";
 import { logger } from "../../utils";
 
 const seedAdmin = async () => {
-    logger.info(config.adminEmail);
     const admin = await UserRepo.getUserByEmail(config.adminEmail);
     if (!admin) {
         await UserService.create(
