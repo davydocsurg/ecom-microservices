@@ -3,6 +3,7 @@ import cors from "cors";
 import { errorConverter, errorHandler, xss } from "./api/middlewares";
 import userRouter from "./routes";
 import { consumeUserRegistration } from "./utils";
+import { userSeeder } from "./database/seeders";
 
 const app: Express = express();
 
@@ -17,7 +18,10 @@ app.use(cors());
 // @ts-ignore
 app.use(xss());
 
-consumeUserRegistration();
+// seed data
+userSeeder.seedAdmin();
+
+// consumeUserRegistration();
 
 app.use("/api", userRouter);
 

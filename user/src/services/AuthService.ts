@@ -19,19 +19,21 @@ export const cookieOptions = {
 /**
  * Signs a JSON Web Token (JWT) with the provided data.
  *
- * @param {string} email - The developer's email.
+ * @param {string} email - The user's email.
+ * @param {string} id - The user's id.
+ * @param {string} role - The user's role.
  * @returns {string} The signed JWT token.
  * @throws {Error} If an error occurs during the token signing process.
  */
-const signToken = (email: string) => {
-    const token = jwt.sign({ email }, config.jwt.secret, {
+const signToken = (email: string, id: string, role: string) => {
+    const token = jwt.sign({ email, id, role }, config.jwt.secret, {
         expiresIn: "1d",
     });
     return token;
 };
 
 const createSendToken = async (user: IUser, res: Response) => {
-    const token = signToken(user.email);
+    const token = signToken(user.email, user._id, user.role);
     if (config.env === config.PROD) cookieOptions.secure = true;
     // @ts-ignore
     res.cookie("jwt", token, cookieOptions);
@@ -65,11 +67,12 @@ const login = async (email: string, password: string, res: Response) => {
  * @returns {Promise<IUser | null, token>}
  */
 const loginWithEmailAndPassword = async (email: string, password: string) => {
-    const user = await UserRepo.getUserByEmail(email);
-    if (!user && !(await isPasswordMatch(password, user!.password))) {
+    const user = await UserRepo.getUserByEmailSync(email);
+
+    if (!user || !(await isPasswordMatch(password, user.password as string))) {
         throw new ApiError(
             httpStatus.BAD_REQUEST,
-            "Email or password not correct"
+            "Incorrect email or password"
         );
     }
 

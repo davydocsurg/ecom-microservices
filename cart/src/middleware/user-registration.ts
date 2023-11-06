@@ -14,8 +14,9 @@ const handleUserRegistrationEvent = async () => {
             logger.info(
                 `Received user registration event for user ${userData.email}`
             );
+
             // Create a cart for the new user
-            cartService.create(userData.id);
+            cartService.create(userData._id);
             // Acknowledge the message
             channel.ack(msg);
         }

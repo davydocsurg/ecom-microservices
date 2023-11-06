@@ -50,9 +50,6 @@ const envVarsSchema = Joi.object()
         MESSAGE_BROKER_URL: Joi.string()
             .description("the url of the message broker")
             .required(),
-        ADMIN_EMAIL: Joi.string().description("admin email").required(),
-        ADMIN_NAME: Joi.string().description("admin name").required(),
-        ADMIN_PASSWORD: Joi.string().description("admin password").required(),
     })
     .unknown();
 
@@ -78,14 +75,9 @@ if (![DEV, PROD, TEST].includes(NODE_ENV || "")) {
 
 const QUEUE_NAME = "USER_QUEUE";
 const USER_REGISTRATION_QUEUE = "USER_REGISTRATION_QUEUE";
-const USER_INFO_REQUEST_QUEUE = "USER_INFO_REQUEST_QUEUE";
-const USER_INFO_RESPONSE_QUEUE = "USER_INFO_RESPONSE_QUEUE";
 const EXCHANGE_NAME = "ECOMMERCE_EXCHANGE";
 const BINDING_KEY = "USER_SERVICE";
-
-// const ADMIN_EMAIL = process
-// const ADMIN_PASSWORD = "admin.pasS";
-// const ADMIN_NAME = "Admin";
+const USER_INFO_RESPONSE_QUEUE = "USER_INFO_RESPONSE_QUEUE";
 
 export default {
     env: envVars.NODE_ENV,
@@ -104,9 +96,5 @@ export default {
     EXCHANGE_NAME,
     BINDING_KEY,
     userRegistrationQueue: USER_REGISTRATION_QUEUE,
-    userInfoRequestQueue: USER_INFO_REQUEST_QUEUE,
     userInfoResponseQueue: USER_INFO_RESPONSE_QUEUE,
-    adminEmail: envVars.ADMIN_EMAIL,
-    adminPassword: envVars.ADMIN_PASSWORD,
-    adminName: envVars.ADMIN_NAME,
 };
