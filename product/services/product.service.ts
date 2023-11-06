@@ -1,38 +1,53 @@
 import httpStatus from "http-status";
-import { Category } from "../database";
+import { Product } from "../database";
 import { ApiError } from "../utils";
+import { IProduct } from "../database/models/Product";
 
 /**
- * Create category
+ * Create product
  *
  * @param {string} name
- * @returns {Promise<ICategory>}
+ * @param {string} description
+ * @param {number} price
+ * @param {boolean} inStock
+ * @param {number} unit
+ *
+ * @returns {Promise<IProduct>}
  */
-const create = async (name: string) => {
-    if (await Category.findOne({ name })) {
-        throw new ApiError(httpStatus.BAD_REQUEST, "Category already exists");
-    }
-    const category = await Category.create({ name });
+const create = async (
+    name: string,
+    description: string,
+    price: number,
+    inStock: boolean,
+    unit: number
+) => {
+    const product = await Product.create({
+        name,
+        description,
+        price,
+        inStock,
+        unit,
+    });
 
-    return category;
+    return product;
 };
 
 /**
- * Get category by name
+ * Get product by slug
  *
- * @param {string} name
- * @returns {Promise<ICategory>}
+ * @param {string} slug
+ * @returns {Promise<IProduct>}
  */
-const getCategoryByName = async (name: string) => {
-    const category = await Category.findOne({ name });
-    if (!category) {
-        throw new ApiError(httpStatus.NOT_FOUND, "Category not found");
+const getProductBySlug = async (slug: string) => {
+    const product = await Product.findOne({ slug });
+    if (!product) {
+        throw new ApiError(httpStatus.NOT_FOUND, "Product not found");
     }
 
-    return category;
+    return product;
 };
 
 export default {
     create,
-    getCategoryByName,
+    getProductBySlug,
 };
