@@ -22,4 +22,38 @@ const createChannel = async () => {
     }
 };
 
-export default { connect, createChannel };
+/**
+ * Retry a publisher or consumer until it succeeds or reaches a maximum number of retries
+ *
+ * @param {Function} fn - The publisher or consumer to retry
+ * @param {number} retries - The maximum number of retries
+ * @param {number} delay - The delay between retries in milliseconds
+ * @returns {Promise<any>} - The result of the publisher or consumer
+ */
+const retry = async (
+    fn: Function,
+    retries: number,
+    delay: number
+): Promise<any> => {
+    let attempts = 0;
+    while (attempts < retries) {
+        logger.info(`Attempt ${attempts + 1} of ${retries}`);
+        try {
+            const result = await fn();
+            return result;
+        } catch (error: any) {
+            logger.error(`Error: ${error.message}`);
+            attempts++;
+            if (attempts === retries) {
+                logger.error(`Failed after ${attempts} attempts`);
+                throw new ApiError(
+                    httpStatus.INTERNAL_SERVER_ERROR,
+                    error.message
+                );
+            }
+            await new Promise((resolve) => setTimeout(resolve, delay));
+        }
+    }
+};
+
+export default { connect, createChannel, retry };

@@ -16,6 +16,12 @@ const create = async (name: string) => {
     }
     const category = await Category.create({ name });
 
+    await rabbitmq.retry(
+        async () => await publishCategoryCreation(category),
+        config.rabbitmq.retryLimit,
+        config.rabbitmq.retryDelay
+    );
+
     return category;
 };
 
@@ -30,12 +36,6 @@ const getCategoryByName = async (name: string) => {
     if (!category) {
         throw new ApiError(httpStatus.NOT_FOUND, "Category not found");
     }
-
-    await rabbitmq.retry(
-        async () => await publishCategoryCreation(category),
-        config.rabbitmq.retryLimit,
-        config.rabbitmq.retryDelay
-    );
 
     return category;
 };

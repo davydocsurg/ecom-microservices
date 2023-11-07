@@ -1,6 +1,6 @@
 import express, { Express } from "express";
 import { errorConverter, errorHandler } from "./middleware";
-import { categoryRoute } from "./routes";
+import { productRoute } from "./routes";
 
 const app: Express = express();
 
@@ -9,7 +9,7 @@ app.use(express.json());
 // @ts-ignore
 app.use(express.urlencoded({ extended: true }));
 
-app.use(categoryRoute);
+app.use(productRoute);
 // @ts-ignore
 app.use(errorConverter);
 // @ts-ignore

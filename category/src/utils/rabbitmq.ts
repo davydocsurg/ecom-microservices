@@ -37,6 +37,7 @@ export const retry = async (
 ): Promise<any> => {
     let attempts = 0;
     while (attempts < retries) {
+        logger.info(`Attempt ${attempts + 1} of ${retries}`);
         try {
             const result = await fn();
             return result;

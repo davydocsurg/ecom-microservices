@@ -13,9 +13,9 @@ const s3Proxy = proxy("http://localhost:8083");
 // @ts-ignore
 app.use("/s1", s1Proxy);
 // @ts-ignore
-app.use(s2Proxy);
+app.use("/s2/category", s2Proxy);
 // @ts-ignore
-app.use("/s2/category", s3Proxy);
+app.use("/s3/product", s3Proxy);
 
 const server = app.listen(8080, () => {
     console.log("Gateway is Listening to Port 8080");
