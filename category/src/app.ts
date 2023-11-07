@@ -9,7 +9,7 @@ app.use(express.json());
 // @ts-ignore
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/api/category", categoryRoute);
+app.use(categoryRoute);
 // @ts-ignore
 app.use(errorConverter);
 // @ts-ignore
