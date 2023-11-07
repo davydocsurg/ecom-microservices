@@ -1,8 +1,15 @@
 import httpStatus from "http-status";
+import { Request, Response } from "express";
 import { productService } from "../services";
-import { catchAsync, consumeCategoryResponse, rabbitmq } from "../utils";
+import {
+    catchAsync,
+    consumeCategoryResponse,
+    logger,
+    rabbitmq,
+} from "../utils";
 import config from "../config";
 
+// @ts-ignore
 const create = catchAsync(async (req, res) => {
     const { name, description, price, category, unit } = req.body;
 
@@ -16,14 +23,14 @@ const create = catchAsync(async (req, res) => {
     return res.status(httpStatus.CREATED).send({ product });
 });
 
-const getCategories = catchAsync(async (req, res) => {
-    const categories = await rabbitmq.retry(
-        async () => await consumeCategoryResponse(),
+// @ts-ignore
+const getCategories = async (req: Request, res: Response) => {
+    await rabbitmq.retry(
+        async () => await consumeCategoryResponse(res),
         config.rabbitmq.retryLimit,
         config.rabbitmq.retryDelay
     );
-    return res.status(httpStatus.OK).send({ categories });
-});
+};
 
 export default {
     create,

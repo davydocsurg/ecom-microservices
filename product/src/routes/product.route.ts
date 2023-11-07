@@ -2,6 +2,7 @@ import express from "express";
 import { authMiddleware, validate } from "../middleware";
 import { productController } from "../controllers";
 import { productValidation } from "../middleware/validations";
+import { catchAsync } from "../utils";
 
 const productRoute = express.Router();
 
@@ -16,7 +17,7 @@ productRoute.get(
     "/category/all",
     authMiddleware as any,
     // @ts-ignore
-    productController.getCategories
+    catchAsync(productController.getCategories)
 );
 
 export default productRoute;

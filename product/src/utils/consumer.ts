@@ -1,16 +1,18 @@
+import { Response } from "express";
+import httpStatus from "http-status";
 import config from "../config";
 import rabbitmq from "./rabbitmq";
 
-const consumeCategoryResponse = async () => {
+const consumeCategoryResponse = async (res: Response) => {
     const channel = await rabbitmq.createChannel();
     channel.assertQueue(config.categoryQueue);
 
     channel.consume(config.categoryQueue, (message) => {
         if (message) {
-            console.log(message.content.toString() + "category");
             const categories = JSON.parse(message.content.toString());
-            channel.ack(message);
-            return categories;
+            // @ts-ignore
+            res.status(httpStatus.OK).send({ categories });
+            // channel.ack(message);
         }
     });
 };
