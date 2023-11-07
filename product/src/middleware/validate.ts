@@ -1,7 +1,7 @@
 import httpStatus from "http-status";
-import { ApiError } from "../src/utils";
+import { ApiError } from "../utils";
 import { NextFunction, Request, Response } from "express";
-import { pick } from "../src/utils";
+import { pick } from "../utils";
 import Joi from "joi";
 
 const validate =
