@@ -23,7 +23,7 @@ userSeeder.seedAdmin();
 
 // consumeUserRegistration();
 
-app.use("/api", userRouter);
+app.use(userRouter);
 
 // @ts-ignore
 app.use(errorConverter);

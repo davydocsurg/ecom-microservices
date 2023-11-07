@@ -2,7 +2,7 @@ import ApiError from "./apiErrors";
 import rabbitmq from "./rabbitmq";
 import catchAsync from "./catchAsync";
 import logger from "./logger";
-import { consumeUserInfoResponse } from "./consumer";
+import { consumeCategoryResponse } from "./consumer";
 import pick from "./pick";
 
 export {
@@ -10,6 +10,6 @@ export {
     rabbitmq,
     catchAsync,
     logger,
-    consumeUserInfoResponse,
+    consumeCategoryResponse,
     pick,
 };

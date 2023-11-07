@@ -75,14 +75,9 @@ if (![DEV, PROD, TEST].includes(NODE_ENV || "")) {
 
 const QUEUE_NAME = "USER_QUEUE";
 const USER_REGISTRATION_QUEUE = "USER_REGISTRATION_QUEUE";
+const CATEGORY_QUEUE = "CATEGORY_QUEUE";
 const EXCHANGE_NAME = "ECOMMERCE_EXCHANGE";
 const BINDING_KEY = "USER_SERVICE";
-const USER_INFO_RESPONSE_QUEUE = "USER_INFO_RESPONSE_QUEUE";
-const CATEGORY_QUEUE = "CATEGORY_QUEUE";
-const rabbitmq = {
-    retryLimit: 3,
-    retryDelay: 5000,
-};
 
 export default {
     env: envVars.NODE_ENV,
@@ -101,7 +96,5 @@ export default {
     EXCHANGE_NAME,
     BINDING_KEY,
     userRegistrationQueue: USER_REGISTRATION_QUEUE,
-    userInfoResponseQueue: USER_INFO_RESPONSE_QUEUE,
     categoryQueue: CATEGORY_QUEUE,
-    rabbitmq,
 };
